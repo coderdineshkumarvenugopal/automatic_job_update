@@ -13,6 +13,8 @@ WORKDIR /app
 RUN apk add --no-cache chromium chromium-chromedriver
 ENV CHROME_DRIVER_PATH=/usr/bin/chromedriver
 ENV CHROME_BINARY_PATH=/usr/bin/chromium
+ENV CHROME_OPTS="--headless --no-sandbox --disable-dev-shm-usage --disable-gpu --single-process"
+
 
 COPY --from=build /app/target/*.jar app.jar
 ENTRYPOINT ["java","-jar","app.jar"]
