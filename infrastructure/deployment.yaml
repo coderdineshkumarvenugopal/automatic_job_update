@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: job-updater-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: job-updater-backend
+  template:
+    metadata:
+      labels:
+        app: job-updater-backend
+    spec:
+      containers:
+        - name: job-updater-backend
+          image: job-updater-backend:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres-service:5432/jobdb
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: password
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: job-updater-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: job-updater-frontend
+  template:
+    metadata:
+      labels:
+        app: job-updater-frontend
+    spec:
+      containers:
+        - name: job-updater-frontend
+          image: job-updater-frontend:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          env:
+            - name: POSTGRES_DB
+              value: jobdb
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: password
+          ports:
+            - containerPort: 5432
