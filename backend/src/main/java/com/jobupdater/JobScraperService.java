@@ -44,8 +44,8 @@ public class JobScraperService {
         this.scrapers.add(wellfoundScraper);
     }
 
-    // Scrape every 2 minutes (120000ms) to prevent ban and server crash
-    @Scheduled(fixedRate = 120000)
+    // Scrape every 15 minutes (900000ms) to prevent ban and server crash
+    @Scheduled(fixedRate = 900000)
     public void scrapeJobs() {
         System.out.println("Starting advanced scraping cycle...");
         for (ScraperStrategy scraper : scrapers) {
