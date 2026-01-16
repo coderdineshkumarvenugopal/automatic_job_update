@@ -5,9 +5,10 @@ import com.jobupdater.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class JobScraperService {
     private final SimpMessagingTemplate messagingTemplate;
     private final List<ScraperStrategy> scrapers;
     private final java.util.concurrent.ExecutorService scraperExecutor = java.util.concurrent.Executors
-            .newFixedThreadPool(3);
+            .newFixedThreadPool(1); // Reduced to 1 to save memory on free tier
     private int currentScraperIndex = 0;
 
     @Autowired
@@ -45,9 +46,9 @@ public class JobScraperService {
         this.scrapers.add(wellfoundScraper);
     }
 
-    @PostConstruct
+    @EventListener(ApplicationReadyEvent.class)
     public void init() {
-        System.out.println("Starting initial scraping cycle on startup...");
+        System.out.println("Backend is ready! Starting initial scraping cycle...");
         scrapeJobs();
     }
 
