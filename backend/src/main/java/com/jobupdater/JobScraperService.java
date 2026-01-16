@@ -7,6 +7,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,12 @@ public class JobScraperService {
         this.scrapers.add(greenhouseScraper);
         this.scrapers.add(leverScraper);
         this.scrapers.add(wellfoundScraper);
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Starting initial scraping cycle on startup...");
+        scrapeJobs();
     }
 
     // Scrape every 15 minutes (900000ms) to prevent ban and server crash

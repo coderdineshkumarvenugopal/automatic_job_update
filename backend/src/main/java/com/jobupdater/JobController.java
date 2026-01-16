@@ -18,7 +18,10 @@ public class JobController {
 
     @GetMapping
     public List<Job> getAllJobs() {
-        return jobRepository.findAll();
+        System.out.println("Received request to fetch all jobs");
+        List<Job> jobs = jobRepository.findAll();
+        System.out.println("Returning " + jobs.size() + " jobs");
+        return jobs;
     }
 
     @org.springframework.web.bind.annotation.PutMapping("/{id}/status")

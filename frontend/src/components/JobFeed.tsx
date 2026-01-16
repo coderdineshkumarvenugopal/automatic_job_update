@@ -13,6 +13,7 @@ import { ExternalLink, Clock, MapPin, Building2 } from 'lucide-react';
 const { Text, Title } = Typography;
 
 const API_URL = import.meta.env.VITE_API_URL || '';
+console.log("Current API_URL:", API_URL || "(empty, using relative path)");
 
 const fetchJobs = async (): Promise<Job[]> => {
     const response = await axios.get(`${API_URL}/api/jobs`);
