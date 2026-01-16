@@ -1,0 +1,37 @@
+services:
+  # Backend Service (Java Spring Boot)
+  - type: web
+    name: job-backend
+    runtime: docker
+    plan: free
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: job-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: job-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: job-db
+          property: password
+      - key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+        value: org.postgresql.Driver
+      - key: SPRING_JPA_DATABASE_PLATFORM
+        value: org.hibernate.dialect.PostgreSQLDialect
+
+  # Frontend Service (Vite React)
+  - type: web
+    name: job-frontend
+    runtime: static
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishPath: "frontend/dist"
+    envVars:
+      - key: VITE_API_URL
+        value: https://job-backend.onrender.com
+
+databases:
+  - name: job-db
+    plan: free

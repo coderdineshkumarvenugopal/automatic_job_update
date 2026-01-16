@@ -27,6 +27,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/jobdb
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQLDialect
     depends_on:
       db:
         condition: service_healthy

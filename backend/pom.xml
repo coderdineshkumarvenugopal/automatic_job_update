@@ -14,7 +14,7 @@
 	<name>job-updater-backend</name>
 	<description>Backend for Job Updater App</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
